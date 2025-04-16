@@ -1,4 +1,4 @@
-"name": "Start release manually",
+name: "Start release manually"
 
 on: {
     "workflow_dispatch": {

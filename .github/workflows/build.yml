@@ -38,26 +38,26 @@ jobs: {
             },
             {
                 "name": "Build docker image",
-                "run": "docker build -t release-${{ github.ref_name }}:${{ matrix.version }}-${{ matrix.architecture }} ./${{ matrix.version }}/${{ matrix.architecture }}/",
+                "run": "docker build -t release-${{ github.ref_name }}:${{ github.event.inputs.version }}-${{ github.event.inputs.architecture }} ./${{ github.event.inputs.version }}/${{ github.event.inputs.architecture }}/",
             },
             {
                 "name": "Save docker image as tar file",
-                "run": "docker save release-${{ github.ref_name }}:${{ matrix.version }}-${{ matrix.architecture }} > release-${{ matrix.version }}-${{ matrix.architecture }}.tar",
+                "run": "docker save release-${{ github.ref_name }}:${{ github.event.inputs.version }}-${{ github.event.inputs.architecture }} > release-${{ github.event.inputs.version }}-${{ github.event.inputs.architecture }}.tar",
             },
             {
                 "name": "Figure out the /opt/python directory from the tar file",
-                "run": "./ci/packing_release_tar.sh release-${{ matrix.version }}-${{ matrix.architecture }}.tar",
+                "run": "./ci/packing_release_tar.sh release-${{ github.event.inputs.version }}-${{ github.event.inputs.architecture }}.tar",
             },
             {
                 "name": "Gzip to save space",
-                "run": "sudo apt-get install gzip -y && gzip -9 build/release-${{ matrix.version }}-${{ matrix.architecture }}.tar",
+                "run": "sudo apt-get install gzip -y && gzip -9 build/release-${{ github.event.inputs.version }}-${{ github.event.inputs.architecture }}.tar",
             },
             {
                 "name": "Release the tar file to artifacts",
                 "uses": "actions/upload-artifact@v4",
                 "with": {
-                    "name": "release-${{ matrix.version }}-${{ matrix.architecture }}.tar.gz",
-                    "path": "build/release-${{ matrix.version }}-${{ matrix.architecture }}.tar.gz",
+                    "name": "release-${{ github.event.inputs.version }}-${{ github.event.inputs.architecture }}.tar.gz",
+                    "path": "build/release-${{ github.event.inputs.version }}-${{ github.event.inputs.architecture }}.tar.gz",
                 },
             },
         ],

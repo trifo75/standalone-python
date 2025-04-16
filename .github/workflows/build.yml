@@ -15,14 +15,13 @@ on: {
             ],
           },
           "architecture": {
-            "description": "Select Python version",
+            "description": "Select architecture",
             "type": "choice",
             "required": true,
-            "default": "3.10",
+            "default": "x86_64",
             "options": [
-              "3.10",
-              "3.11",
-              "3.12",
+              "x86_64",
+              "x86"
             ],
           },
         },
